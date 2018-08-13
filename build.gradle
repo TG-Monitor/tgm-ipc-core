@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group 'ai.quantumsense.tgmonitor'
+version '0.0.1'
+
+sourceCompatibility = 1.8
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'com.rabbitmq:amqp-client:5.3.0'
+    compile 'org.slf4j:slf4j-simple:1.8.0-beta2'
+
+    implementation 'com.github.tg-monitor:tgm-corefacade:master-SNAPSHOT'
+    implementation 'com.github.tg-monitor:tgm-logincodeprompt:0.0.1'
+    implementation 'com.github.tg-monitor:tgm-ipc-api:master-SNAPSHOT'
+}
+
+jar {
+    exclude('ai/quantumsense/tgmonitor/test/**')
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
