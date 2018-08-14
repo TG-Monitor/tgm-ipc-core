@@ -80,6 +80,7 @@ public class RequestHandler {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                logger.debug("Handling login request in separate thread");
                 isLoggingIn = true;
                 LoginCodePrompt loginCodePrompt = new LoginCodePrompt() {
                     @Override
@@ -89,7 +90,9 @@ public class RequestHandler {
                     }
                 };
                 String phoneNumber = (String) request.getArgs().get(1);
+                logger.debug("Calling CoreFacade login() method");
                 coreFacade.login(phoneNumber, loginCodePrompt);
+                logger.debug("Login succeeded");
                 try {
                     RequestHandler.this.sendEmptyResponse(props);
                 } catch (IOException e) {
