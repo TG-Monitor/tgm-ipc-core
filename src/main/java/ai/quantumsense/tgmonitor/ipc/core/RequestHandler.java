@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -147,57 +148,57 @@ public class RequestHandler {
                 sendValueResponse(coreFacade.getPeers(), props);
                 break;
             case SET_PEERS:
-                coreFacade.setPeers((Set<String>) args.get(0));
+                coreFacade.setPeers(convertArgToSet(args.get(0)));
                 break;
             case ADD_PEER:
                 coreFacade.addPeer((String) args.get(0));
                 break;
             case ADD_PEERS:
-                coreFacade.addPeers((Set<String>) args.get(0));
+                coreFacade.addPeers(convertArgToSet(args.get(0)));
                 break;
             case REMOVE_PEER:
                 coreFacade.removePeer((String) args.get(0));
                 break;
             case REMOVE_PEERS:
-                coreFacade.removePeers((Set<String>) args.get(0));
+                coreFacade.removePeers(convertArgToSet(args.get(0)));
                 break;
 
             case GET_PATTERNS:
                 sendValueResponse(coreFacade.getPatterns(), props);
                 break;
             case SET_PATTERNS:
-                coreFacade.setPatterns((Set<String>) args.get(0));
+                coreFacade.setPatterns(convertArgToSet(args.get(0)));
                 break;
             case ADD_PATTERN:
                 coreFacade.addPattern((String) args.get(0));
                 break;
             case ADD_PATTERNS:
-                coreFacade.addPatterns((Set<String>) args.get(0));
+                coreFacade.addPatterns(convertArgToSet(args.get(0)));
                 break;
             case REMOVE_PATTERN:
                 coreFacade.removePattern((String) args.get(0));
                 break;
             case REMOVE_PATTERNS:
-                coreFacade.removePatterns((Set<String>) args.get(0));
+                coreFacade.removePatterns(convertArgToSet(args.get(0)));
                 break;
 
             case GET_EMAILS:
                 sendValueResponse(coreFacade.getEmails(), props);
                 break;
             case SET_EMAILS:
-                coreFacade.setEmails((Set<String>) args.get(0));
+                coreFacade.setEmails(convertArgToSet(args.get(0)));
                 break;
             case ADD_EMAIL:
                 coreFacade.addEmail((String) args.get(0));
                 break;
             case ADD_EMAILS:
-                coreFacade.addEmails((Set<String>) args.get(0));
+                coreFacade.addEmails(convertArgToSet(args.get(0)));
                 break;
             case REMOVE_EMAIL:
                 coreFacade.removeEmail((String) args.get(0));
                 break;
             case REMOVE_EMAILS:
-                coreFacade.removeEmails((Set<String>) args.get(0));
+                coreFacade.removeEmails(convertArgToSet(args.get(0)));
                 break;
 
             default:
@@ -241,5 +242,10 @@ public class RequestHandler {
 
     private void handleConsumerCancel(String consumerTag) {
         logger.debug("Cancelling consumer " + consumerTag);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Set<String> convertArgToSet(Object arg) {
+        return new HashSet<>((List<String>) arg);
     }
 }
