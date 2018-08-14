@@ -118,7 +118,6 @@ public class RequestHandler {
         //logger.debug("Thread " + thread + ", isDaemon: " + thread.isDaemon() + ", isAlive: " + thread.isAlive());
     }
 
-    @SuppressWarnings("unchecked")
     private void handleNormalRequest(Request request, AMQP.BasicProperties props) throws IOException {
         List<Object> args = request.getArgs();
         switch (request.getName()) {
@@ -149,18 +148,23 @@ public class RequestHandler {
                 break;
             case SET_PEERS:
                 coreFacade.setPeers(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
             case ADD_PEER:
                 coreFacade.addPeer((String) args.get(0));
+                sendEmptyResponse(props);
                 break;
             case ADD_PEERS:
                 coreFacade.addPeers(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
             case REMOVE_PEER:
                 coreFacade.removePeer((String) args.get(0));
+                sendEmptyResponse(props);
                 break;
             case REMOVE_PEERS:
                 coreFacade.removePeers(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
 
             case GET_PATTERNS:
@@ -168,18 +172,23 @@ public class RequestHandler {
                 break;
             case SET_PATTERNS:
                 coreFacade.setPatterns(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
             case ADD_PATTERN:
                 coreFacade.addPattern((String) args.get(0));
+                sendEmptyResponse(props);
                 break;
             case ADD_PATTERNS:
                 coreFacade.addPatterns(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
             case REMOVE_PATTERN:
                 coreFacade.removePattern((String) args.get(0));
+                sendEmptyResponse(props);
                 break;
             case REMOVE_PATTERNS:
                 coreFacade.removePatterns(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
 
             case GET_EMAILS:
@@ -187,18 +196,23 @@ public class RequestHandler {
                 break;
             case SET_EMAILS:
                 coreFacade.setEmails(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
             case ADD_EMAIL:
                 coreFacade.addEmail((String) args.get(0));
+                sendEmptyResponse(props);
                 break;
             case ADD_EMAILS:
                 coreFacade.addEmails(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
             case REMOVE_EMAIL:
                 coreFacade.removeEmail((String) args.get(0));
+                sendEmptyResponse(props);
                 break;
             case REMOVE_EMAILS:
                 coreFacade.removeEmails(convertArgToSet(args.get(0)));
+                sendEmptyResponse(props);
                 break;
 
             default:
