@@ -74,12 +74,12 @@ public class RequestHandler {
             else
                 handleNormalRequest(request, delivery.getProperties());
         }
-        StringBuilder sb = new StringBuilder();
-        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-        for (Thread t : threadSet) {
-            sb.append(t.getName() + " " + t.isAlive() + " " + t.getState());
-        }
-        logger.debug("All threads:\n" + sb.toString());
+//        StringBuilder sb = new StringBuilder();
+//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+//        for (Thread t : threadSet) {
+//            sb.append(t.getName() + " " + t.isAlive() + " " + t.getState());
+//        }
+//        logger.debug("All threads:\n" + sb.toString());
     }
 
     private void handleLoginRequest(Request request, AMQP.BasicProperties props) {
@@ -95,8 +95,8 @@ public class RequestHandler {
                         return s.getLoginCode();
                     }
                 };
-                String phoneNumber = (String) request.getArgs().get(1);
-                logger.debug("Calling CoreFacade login() method");
+                String phoneNumber = (String) request.getArgs().get(0);
+                logger.debug("Calling CoreFacade login() method with phone number " + phoneNumber);
                 coreFacade.login(phoneNumber, loginCodePrompt);
                 logger.debug("Login succeeded");
                 try {
@@ -113,7 +113,7 @@ public class RequestHandler {
             }
         });
         thread.start();
-        logger.debug("Thread " + thread + ", isDaemon: " + thread.isDaemon() + ", isAlive: " + thread.isAlive());
+        //logger.debug("Thread " + thread + ", isDaemon: " + thread.isDaemon() + ", isAlive: " + thread.isAlive());
     }
 
     @SuppressWarnings("unchecked")
@@ -146,57 +146,57 @@ public class RequestHandler {
                 sendValueResponse(coreFacade.getPeers(), props);
                 break;
             case SET_PEERS:
-                coreFacade.setPeers((Set<String>) args.get(1));
+                coreFacade.setPeers((Set<String>) args.get(0));
                 break;
             case ADD_PEER:
-                coreFacade.addPeer((String) args.get(1));
+                coreFacade.addPeer((String) args.get(0));
                 break;
             case ADD_PEERS:
-                coreFacade.addPeers((Set<String>) args.get(1));
+                coreFacade.addPeers((Set<String>) args.get(0));
                 break;
             case REMOVE_PEER:
-                coreFacade.removePeer((String) args.get(1));
+                coreFacade.removePeer((String) args.get(0));
                 break;
             case REMOVE_PEERS:
-                coreFacade.removePeers((Set<String>) args.get(1));
+                coreFacade.removePeers((Set<String>) args.get(0));
                 break;
 
             case GET_PATTERNS:
                 sendValueResponse(coreFacade.getPatterns(), props);
                 break;
             case SET_PATTERNS:
-                coreFacade.setPatterns((Set<String>) args.get(1));
+                coreFacade.setPatterns((Set<String>) args.get(0));
                 break;
             case ADD_PATTERN:
-                coreFacade.addPattern((String) args.get(1));
+                coreFacade.addPattern((String) args.get(0));
                 break;
             case ADD_PATTERNS:
-                coreFacade.addPatterns((Set<String>) args.get(1));
+                coreFacade.addPatterns((Set<String>) args.get(0));
                 break;
             case REMOVE_PATTERN:
-                coreFacade.removePattern((String) args.get(1));
+                coreFacade.removePattern((String) args.get(0));
                 break;
             case REMOVE_PATTERNS:
-                coreFacade.removePatterns((Set<String>) args.get(1));
+                coreFacade.removePatterns((Set<String>) args.get(0));
                 break;
 
             case GET_EMAILS:
                 sendValueResponse(coreFacade.getEmails(), props);
                 break;
             case SET_EMAILS:
-                coreFacade.setEmails((Set<String>) args.get(1));
+                coreFacade.setEmails((Set<String>) args.get(0));
                 break;
             case ADD_EMAIL:
-                coreFacade.addEmail((String) args.get(1));
+                coreFacade.addEmail((String) args.get(0));
                 break;
             case ADD_EMAILS:
-                coreFacade.addEmails((Set<String>) args.get(1));
+                coreFacade.addEmails((Set<String>) args.get(0));
                 break;
             case REMOVE_EMAIL:
-                coreFacade.removeEmail((String) args.get(1));
+                coreFacade.removeEmail((String) args.get(0));
                 break;
             case REMOVE_EMAILS:
-                coreFacade.removeEmails((Set<String>) args.get(1));
+                coreFacade.removeEmails((Set<String>) args.get(0));
                 break;
 
             default:
