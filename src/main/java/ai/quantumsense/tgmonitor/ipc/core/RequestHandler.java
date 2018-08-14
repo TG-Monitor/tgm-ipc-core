@@ -88,10 +88,11 @@ public class RequestHandler {
             public void run() {
                 logger.debug("Handling login request in separate thread");
                 isLoggingIn = true;
+                String loginCodeRequestQueue = getLoginCodeRequestQueue(props);
                 LoginCodePrompt loginCodePrompt = new LoginCodePrompt() {
                     @Override
                     public String promptLoginCode() {
-                        LoginCodeRequestSender s = new LoginCodeRequestSender(getLoginCodeRequestQueue(props), channel);
+                        LoginCodeRequestSender s = new LoginCodeRequestSender(loginCodeRequestQueue, channel);
                         return s.getLoginCode();
                     }
                 };
@@ -109,7 +110,7 @@ public class RequestHandler {
             private String getLoginCodeRequestQueue(AMQP.BasicProperties props) {
                 if (props.getHeaders() == null || !props.getHeaders().containsKey(LOGIN_CODE_REQUEST_QUEUE))
                     throw new RuntimeException("Login request does not contain required login code request queue in header");
-                return (String) props.getHeaders().get(LOGIN_CODE_REQUEST_QUEUE);
+                return props.getHeaders().get(LOGIN_CODE_REQUEST_QUEUE).toString();
             }
         });
         thread.start();
