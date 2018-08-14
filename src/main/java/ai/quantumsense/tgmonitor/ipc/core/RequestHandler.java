@@ -74,6 +74,12 @@ public class RequestHandler {
             else
                 handleNormalRequest(request, delivery.getProperties());
         }
+        StringBuilder sb = new StringBuilder();
+        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+        for (Thread t : threadSet) {
+            sb.append(t.getName() + " " + t.isAlive() + " " + t.getState());
+        }
+        logger.debug("All threads:\n" + sb.toString());
     }
 
     private void handleLoginRequest(Request request, AMQP.BasicProperties props) {
@@ -107,6 +113,7 @@ public class RequestHandler {
             }
         });
         thread.start();
+        logger.debug("Thread " + thread + ", isDaemon: " + thread.isDaemon() + ", isAlive: " + thread.isAlive());
     }
 
     @SuppressWarnings("unchecked")
