@@ -30,10 +30,14 @@ class Connector {
         logger.debug("Establishing connection to RabbitMQ server on " + amqpUri);
         try {
             ConnectionFactory factory = new ConnectionFactory();
-            if (amqpUri.equals("localhost"))
+            if (amqpUri.equals("localhost")) {
+                logger.debug("Using localhost");
                 factory.setHost("localhost");
-            else
+            }
+            else {
+                logger.debug("Using AMQP URI");
                 factory.setUri(amqpUri);
+            }
             connection = factory.newConnection();
             channel = connection.createChannel();
         } catch (IOException | TimeoutException | KeyManagementException
