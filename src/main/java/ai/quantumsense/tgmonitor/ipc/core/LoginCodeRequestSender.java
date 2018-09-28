@@ -48,7 +48,7 @@ class LoginCodeRequestSender {
 
     private void declareResponseQueue() throws IOException {
         logger.debug("Declaring login code response queue " + responseQueue);
-        channel.queueDeclare(responseQueue, false, true, true, null);
+        channel.queueDeclare(responseQueue, false, false, true, null);
     }
 
     private void sendRequest(Request request) throws IOException {
